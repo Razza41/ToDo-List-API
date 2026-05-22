@@ -4,15 +4,21 @@ import com.api.Todo.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tarefa")
+@Builder
 public class TarefaEntity {
 
 
@@ -29,8 +35,7 @@ public class TarefaEntity {
     @NotNull
     private StatusEnum status;
 
-    @NotNull
-    @JsonFormat(pattern = "dd/mm/yyyy") //pega o formato dado no JSON e passa pra variavel
+    @JsonFormat(pattern = "dd/MM/yyyy") //pega o formato dado no JSON e passa pra variavel
     private Date prazo;
 
 
