@@ -17,14 +17,26 @@ public class TarefaController {
     private final TarefaService tarefaService;
 
     @PostMapping
-    public ResponseEntity<TarefaEntity> postTarefa(@Valid @RequestBody TarefaDTO tarefaDTO){
+    public ResponseEntity<TarefaEntity> postTarefa(@Valid @RequestBody TarefaDTO tarefaDTO) {
         TarefaEntity tarefa = tarefaService.criarTarefa(tarefaDTO); //Converto o DTO para Entity
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefa); //retorno o status http de criado
     }
 
-    @GetMapping (value = "/{id}")
-    public ResponseEntity<TarefaEntity> getTarefa(@PathVariable ("id")Long id){
+    @GetMapping(value = "/{id}") //necessario para definir na URL
+    public ResponseEntity<TarefaEntity> getTarefa(@PathVariable("id") Long id) { //PathVariable para "ligar" uma variavel no valor passado na URL
         return ResponseEntity.ok(tarefaService.buscarPorID(id));
+    }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deletTarefa(@PathVariable ("id") Long id){
+        tarefaService.deletarTarefa(id);
+        return ResponseEntity.noContent().build(); //build constroi a resposta no meu body
+    }
+
+    @PutMapping (value = "/{id}")
+    public ResponseEntity<TarefaEntity> atualizarTarefa(@Valid @PathVariable ("id")
+                                                            Long id, @RequestBody TarefaDTO novaTarefa){
+        TarefaEntity tarefa = tarefaService.atualizarTarefa(id,novaTarefa);
+        return ResponseEntity.ok(tarefa);
     }
 }
