@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tarefas")
 @RequiredArgsConstructor
@@ -27,15 +29,21 @@ public class TarefaController {
         return ResponseEntity.ok(tarefaService.buscarPorID(id));
     }
 
+    @GetMapping
+   public ResponseEntity<List<TarefaEntity>> listarTarefas(){
+        List <TarefaEntity> tarefas = tarefaService.listarTarefa(); //Pega as informacoes e coloca em uma lista
+        return ResponseEntity.ok(tarefas); //retorna OK no PostMan
+    }
+
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deletTarefa(@PathVariable ("id") Long id){
+    public ResponseEntity<Void> deletarTarefa(@PathVariable ("id") Long id){
         tarefaService.deletarTarefa(id);
         return ResponseEntity.noContent().build(); //build constroi a resposta no meu body
     }
 
     @PutMapping (value = "/{id}")
-    public ResponseEntity<TarefaEntity> atualizarTarefa(@Valid @PathVariable ("id")
-                                                            Long id, @RequestBody TarefaDTO novaTarefa){
+    public ResponseEntity<TarefaEntity> atualizarTarefa( @PathVariable ("id")
+                                                            Long id, @Valid @RequestBody TarefaDTO novaTarefa){
         TarefaEntity tarefa = tarefaService.atualizarTarefa(id,novaTarefa);
         return ResponseEntity.ok(tarefa);
     }

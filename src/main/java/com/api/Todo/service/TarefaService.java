@@ -33,14 +33,22 @@ public class TarefaService {
                 .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
     }
 
+    public List<TarefaEntity> listarTarefa(){
+        return tarefaRepository.findAll();
+    }
+
 
     //deleta tarefa pelo id
     public void deletarTarefa(Long id){
-        tarefaRepository.deleteById(id);
+
+        if (!tarefaRepository.existsById(id)){
+            throw new RuntimeException("Tarefa não encontrada");
+        }
+
+            tarefaRepository.deleteById(id);
     }
 
     public TarefaEntity atualizarTarefa(Long id, TarefaDTO novaTarefa){
-        System.out.println(">>> DTO: " + novaTarefa); // <-- adiciona aqui
 
         TarefaEntity tarefa = tarefaRepository.findById(id) //cria uma entity para pesquisar a tarefa pelo ID e retorna o sout caso ela nao exista
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
